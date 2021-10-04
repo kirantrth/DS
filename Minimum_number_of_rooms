@@ -1,0 +1,30 @@
+Minimum number of rooms required/or minimum number of platform required.
+
+1. before calling below hotel method, first sort 'arrive' and 'depart' lists.
+2. K is the rooms available in a hotel.
+3. function returns, if we can book the all bookings with given arrival and departure details with given K rooms.
+
+bool Solution::hotel(vector<int> &arrive, vector<int> &depart, int K) 
+{
+    int i = 0, j = 0,result = 0,min_room_req = 0,n = arrive.size();
+    while (i < n && j < n)
+    {
+         if (arrive[i] < depart[j])
+        {
+            min_room_req++;
+            i++;
+            if (min_room_req > result) // update result if required.
+                result = min_room_req;
+        }
+        // Else decrement count of rooms needed
+        else
+        {
+            min_room_req--;
+            j++;
+        }
+    }
+    if (result > K)
+        return false;
+    else
+        return true;
+}
