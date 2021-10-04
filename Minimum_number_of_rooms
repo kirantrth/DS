@@ -6,7 +6,9 @@ Minimum number of rooms required/or minimum number of platform required.
 
 bool Solution::hotel(vector<int> &arrive, vector<int> &depart, int K) 
 {
-    int i = 0, j = 0,result = 0,min_room_req = 0,n = arrive.size();
+    int i = 0, j = 0,result = 0;
+    int min_room_req = 0;
+    int n = arrive.size();
     while (i < n && j < n)
     {
          if (arrive[i] < depart[j])
