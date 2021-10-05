@@ -1,0 +1,79 @@
+/* First Do level order traversal and store elements of tree in same orde in an array.
+** Then do vertical order traversal
+** Then print only that element from vertical order which appears first in level order traversal
+*/
+
+void VerticalOrderTraversal(Node* root, int hd, map<int, vector<int>>& mapNode)
+{
+    if (root == NULL)
+        return;
+    mapNode[hd].push_back(root->data);
+
+    VerticalOrderTraversal(root->left, hd - 1, mapNode);
+    VerticalOrderTraversal(root->right, hd + 1, mapNode);
+}
+void GetVerticalOrder(Node* root, map<int, vector<int>>& mapNode)
+{
+    int hd = 0;
+    VerticalOrderTraversal(root, hd, mapNode);
+}
+void LevelOrderTraversal(Node* root, vector<int>& vec)
+{
+    queue<Node*> que;
+    if (root == NULL)
+    {
+        return;
+    }
+    que.push(root);
+    Node* temp = NULL;
+    while (!que.empty())
+    {
+        temp = que.front();
+        que.pop();
+        vec.push_back(temp->data);
+        if (temp->left != NULL)
+            que.push(temp->left);
+        if (temp->right != NULL)
+            que.push(temp->right);
+    }
+}
+void PrintTopView(map<int, vector<int>>mapNode, vector<int> vec)
+{
+    map<int, vector<int>> ::iterator it;
+    for (it = mapNode.begin(); it != mapNode.end(); it++)
+    {
+        if (it->second.size() == 1)
+        {
+            cout << it->second[0] << " ";
+        }
+        else
+        {
+            set<int> s1;
+            for (int i = 0; i < it->second.size(); i++)
+            {                    
+                for (int j = 0; j < vec.size(); j++)
+                {
+                    if (vec[j] == it->second[i])
+                    {
+                        s1.insert(j);
+                    }
+                }   
+            }
+            set<int>::iterator itr;
+            for (itr = s1.begin(); itr != s1.end(); itr++)
+            {
+                cout << vec[*itr] << " ";
+                break;
+            }
+        }
+    }
+}
+
+void topView(Node* root)
+{
+    vector<int> vec;
+    map<int, vector<int>> mapNode;
+    GetVerticalOrder(root, mapNode);
+    LevelOrderTraversal(root, vec);
+    PrintTopView(mapNode, vec);
+}
