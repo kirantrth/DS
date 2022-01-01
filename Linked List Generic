@@ -1,0 +1,58 @@
+template < typename T > 
+struct ListNode
+{
+  T data;
+  ListNode < T > *next;
+  ListNode (T idata)
+  {
+    data = idata;
+    next = nullptr;
+  }
+};
+
+template < typename T > 
+void Print (ListNode < T > *head)
+{
+  ListNode < T > *temp = head;
+  while (temp != nullptr)
+    {
+      cout << temp->data << " ";
+      temp = temp->next;
+    }
+  cout << endl;
+}
+
+template < typename T > 
+ListNode < T > *ReverseList (ListNode < T > *head)
+{
+  ListNode < T > *temp = nullptr;
+  if (head->next != nullptr)
+    {
+      temp = ReverseList (head->next);
+      head->next->next = head;
+    }
+  else
+    {
+      temp = head;
+    }
+  head->next = nullptr;
+  return temp;
+}
+
+int main ()
+{
+  ListNode < int >*head = new ListNode < int >(10);
+  head->next = new ListNode < int >(20);
+  head->next->next = new ListNode < int >(30);
+  head->next->next->next = new ListNode < int >(40);
+  head->next->next->next->next = new ListNode < int >(50);
+
+  Print (head);
+
+  ListNode < int >*rev_head = ReverseList (head);
+
+  cout << "After Reverse List : " << endl;
+  Print (rev_head);
+  
+  return 0;
+}
