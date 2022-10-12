@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int MinimumJumps(std::vector<int>& arr)
+{
+    int size = arr.size();
+    int reachable = 0; // reachable will hold the max index upto which we can jump.
+    int jump = 0; // this is the counter to count the jumps.
+    for(int i = 0 ; i < size; i++)
+    {
+        if(reachable < i)
+            return 0;
+        reachable = max(reachable, arr[i]+i);
+        if(arr[i] != 0)
+         jump++; // we are increamenting jump only when the the current index value is not zero. if it is zero that means we can not jump. so no point in 
+                 // increamenting.
+        if(reachable == size-1) // here we have reached the end of the array. so return the counter.
+            return jump;
+    } 
+}
+
+int main()
+{
+    std::vector<int> arr = {1, 3, 0 , 0, 2, 0 , 2 };
+    cout << MinimumJumps(arr);
+    return 0;
+}
