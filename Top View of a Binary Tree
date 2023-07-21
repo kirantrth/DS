@@ -94,7 +94,8 @@ void PrintTopView(map<int, vector<int>>map, vector<int> vec)
 					}
 				}
 			}
-			cout << v1[0] << " ";
+			if(v1.size()>0)
+				cout << v1[0] << " ";
 		}
 	}
 }
