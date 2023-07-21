@@ -69,6 +69,35 @@ void PrintTopView(map<int, vector<int>>mapNode, vector<int> vec)
     }
 }
 
+//Other way of printing top view
+void PrintTopView(map<int, vector<int>>map, vector<int> vec)
+{
+	std::map<int, vector<int>>::iterator it;
+	cout << "Size of map is: " << map.size() << endl;
+
+	for (it = map.begin(); it != map.end(); it++)
+	{
+		if (it->second.size() == 1)
+		{
+			cout << it->second[0] << " ";
+		}
+		else
+		{
+			std::vector<int> v1;
+			for (int i = 0; i < vec.size(); i++)
+			{
+				for (int j = 0; j < it->second.size(); j++)
+				{
+					if (vec[i] == it->second[j]) 
+					{
+						v1.push_back(it->second[j]);
+					}
+				}
+			}
+			cout << v1[0] << " ";
+		}
+	}
+}
 void topView(Node* root)
 {
     vector<int> vec;
