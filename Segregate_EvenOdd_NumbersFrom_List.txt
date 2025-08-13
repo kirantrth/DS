@@ -1,0 +1,74 @@
+//This will segregate even and odd numbers from a linked list.
+// 10->20->11->4->5->7->13->12
+// output will be
+// 10->20->4->12->11->5->7->13
+struct LinkedList
+{
+    int data;
+    LinkedList* next;
+    LinkedList(int value) {
+        data = value;
+        next = nullptr;
+    } 
+};
+
+void PrintLinkedList(LinkedList* List_head)
+{
+    LinkedList* temp = List_head;
+    while(temp)
+    {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+    cout << endl;
+}
+LinkedList* SegregateEvenOddFromList(LinkedList* head) 
+{
+    LinkedList* odd_node = new LinkedList(-1);
+    LinkedList* even_node = new LinkedList(-1);
+    LinkedList* current = head;
+    LinkedList* result = nullptr;
+    LinkedList* even = even_node;
+    LinkedList* odd = odd_node;
+    while (current)
+    {
+        if (current->data % 2 == 0)
+        {
+            even->next = current;
+            even = even->next;
+        }
+        else
+        {
+            odd->next = current;
+            odd = odd->next;
+        }
+        current = current->next;
+    }
+    
+    result = even_node->next;
+    while (result->next != nullptr)
+    {
+        result = result->next;
+    }
+    odd->next = nullptr;
+    even->next = nullptr;
+
+    result->next = odd_node->next;
+    return even_node->next;
+}
+
+int main()
+{
+    LinkedList* head = new LinkedList(10);
+    head->next = new LinkedList(11);
+    head->next->next = new LinkedList(13);
+    head->next->next->next = new LinkedList(12);
+    head->next->next->next->next = new LinkedList(9);
+    head->next->next->next->next->next = new LinkedList(60);
+    head->next->next->next->next->next->next = new LinkedList(100);
+    PrintLinkedList(head);
+    LinkedList* head2 = SegregateEvenOddFromList(head);
+    PrintLinkedList(head2);
+         
+    return 0;
+}
