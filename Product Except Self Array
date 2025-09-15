@@ -2,60 +2,41 @@
 *This function will calculate the product of the all element except current element in an array and replace current element with product.
 */
 
-std::vector<int> ProductExceptSelf(std::vector<int>& vect)
+#include <iostream>
+#include <vector>
+using namespace std;
+
+std::vector<int> ProductExcept(std::vector<int> nums)
 {
-	int size = vect.size();
-	std::vector<int> left;
-	std::vector<int> right;
-	std::vector<int> output;
-	left.reserve(size);
-	right.reserve(size);
-	output.reserve(size);
-
-	left.resize(size);
-	right.resize(size);
-	output.resize(size);
-
-	left[0] = vect[0];
-	for (int i = 1; i < size; i++)
-	{
-		left[i] = vect[i] * left[i - 1];// calculate cumilative product from left to right starting from 
-										                //1st pos in array
-	}
-  
-	right[size - 1] = vect[size - 1];
-	for (int i = size - 2; i >= 0; i--)
-	{
-		right[i] = vect[i] * right[i + 1];// calculate cumilative product from right to left starting from 
-										                  //n-2 pos(second last position) in array
-	}
-
-	output[0] = right[1]; // This is the corner case
-	output[size - 1] = left[size - 2]; // This is the corner case
-
-	for (int i = 1; i < size - 1; i++)
-	{
-		output[i] = left[i - 1] * right[i + 1]; // multiply i-1 from left and i+1 from right 
-												//and store result in o/p
-	}
-	return output;
+    cout << "Given array is " << endl;
+    for(auto& item : nums)
+        cout << item << " ";
+    cout << endl;
+    std::vector<int> ans;
+    ans.resize(nums.size(),1);
+    
+    ans[0] = 1;
+    for(int i =1; i < nums.size(); i++)
+    {
+        ans[i] = ans[i-1] * nums[i-1];
+    }
+    
+    int fromRight = 1;
+    for(int i = nums.size()-2; i >= 0; i--)
+    {
+        fromRight = fromRight * nums[i+1];
+        ans[i] = ans[i] * fromRight;
+    }
+    return ans;
+    
 }
-
 int main()
 {
-	std::vector<int> arr = {1, 2, 3, 4, 5};
-	for (auto item : arr)
-	{
-		cout << item << " ";
-	}
-	cout << endl;
-
-	std::vector<int> arr3 = ProductExceptSelf(arr);
-
-	for (auto item : arr3)
-	{
-		cout << item << " ";
-	}
-	cout << endl;
-	return 0;
+    std::vector<int> arr = {1, 2, 3, 4, 5};
+    std::vector<int> ans = ProductExcept(arr);
+    cout << "After Product of all Except self " << endl;
+    for(auto& item : ans)
+        cout << item << " ";
+    cout << endl;
+    return 0;
 }
