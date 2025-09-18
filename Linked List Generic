@@ -56,3 +56,83 @@ int main ()
   
   return 0;
 }
+
+
+// Below is class based version
+// This will reverse the list after specified index. i.e. from start or from middle or from some random node.
+#include <iostream>
+using namespace std;
+template<typename T>
+class List
+{
+    T data;
+    List* next;
+    List* head;
+    List(T num) {
+        data = num;
+        next = nullptr;
+    }
+ public:
+    List() {
+        data = -1;
+        next = nullptr;
+        head = nullptr;
+    }
+     void add(T num) {
+         if(head == nullptr) {
+             cout << "adding first item in list => " << num << endl;
+             head = new List(num);
+         }else 
+         {
+             List* temp = head;
+             while(temp->next != nullptr) {
+                 temp = temp->next;
+             }
+             temp->next = new List(num);
+         }
+     }
+    void PrintList() {
+        List* tempHead = head;
+        while(tempHead != nullptr) {
+            cout << tempHead->data << " ";
+             tempHead = tempHead->next;
+         }
+         cout << endl;
+    }
+    void reverseAfter(int index) {
+        int loop = 1;
+        List* tempHead = head;
+        List* mergeNode = nullptr;
+        while(loop <= index) {
+            if(loop == index)
+                mergeNode = tempHead; // This is important this is node whose next should point to reversed list.
+            loop++;
+            tempHead = tempHead->next;
+        }
+        cout << "After index " << index << " tempHead has " << tempHead->data << endl;
+        cout << "After index " << index << " mergeNode is " << mergeNode->data << endl;
+        List* prev = nullptr; 
+        List* next = nullptr;
+        while(tempHead)
+        {
+            next = tempHead->next;
+            tempHead->next = prev;
+            prev = tempHead;
+            tempHead = next;
+        }
+      // now 'prev' contains the reversed list. Merge it with main list.
+        mergeNode->next = prev;
+    }
+    
+};
+int main()
+{
+    List<char> list;
+    for(int i = 65; i <= 75; i++) {
+        list.add(i);
+    }
+    list.PrintList();
+    list.reverseAfter(7);
+    list.PrintList();
+    return 0;
+}
