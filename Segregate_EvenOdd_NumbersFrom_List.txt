@@ -1,74 +1,75 @@
+#include <iostream>
+using namespace std;
 //This will segregate even and odd numbers from a linked list.
 // 10->20->11->4->5->7->13->12
 // output will be
 // 10->20->4->12->11->5->7->13
-struct LinkedList
-{
-    int data;
-    LinkedList* next;
-    LinkedList(int value) {
-        data = value;
-        next = nullptr;
-    } 
+struct List{
+  int data;
+  List* next;
+  List(int num)
+  {
+      data = num;
+      next = nullptr;
+  }
 };
-
-void PrintLinkedList(LinkedList* List_head)
+void PrintList(List* head)
 {
-    LinkedList* temp = List_head;
-    while(temp)
-    {
+    List*temp = head;
+    while(temp) {
         cout << temp->data << " ";
         temp = temp->next;
     }
     cout << endl;
 }
-LinkedList* SegregateEvenOddFromList(LinkedList* head) 
+List* SeperateEvenOdd(List* head)
 {
-    LinkedList* odd_node = new LinkedList(-1);
-    LinkedList* even_node = new LinkedList(-1);
-    LinkedList* current = head;
-    LinkedList* result = nullptr;
-    LinkedList* even = even_node;
-    LinkedList* odd = odd_node;
-    while (current)
+    List* curr = head;
+    List* eHead = new List(-1);
+    List* oHead = new List(-1);
+    List* even = eHead;
+    List* odd = oHead;
+    List* result = nullptr;
+    while(curr)
     {
-        if (current->data % 2 == 0)
+        if(curr->data%2 == 0)
         {
-            even->next = current;
+            even->next = curr;
             even = even->next;
-        }
-        else
+            
+        } else 
         {
-            odd->next = current;
+            odd->next = curr;
             odd = odd->next;
         }
-        current = current->next;
+        curr = curr->next;
     }
-    
-    result = even_node->next;
-    while (result->next != nullptr)
-    {
-        result = result->next;
-    }
+    even->next = nullptr; // set null
     odd->next = nullptr;
-    even->next = nullptr;
+    
+    result = eHead->next; // set even elements first and then odd
+    even->next = oHead->next;
+    
+    /*
+    result = oHead->next; // set odd elements first and then even
+    odd->next = eHead->next;
+    */
 
-    result->next = odd_node->next;
-    return even_node->next;
+    return result;
 }
-
 int main()
 {
-    LinkedList* head = new LinkedList(10);
-    head->next = new LinkedList(11);
-    head->next->next = new LinkedList(13);
-    head->next->next->next = new LinkedList(12);
-    head->next->next->next->next = new LinkedList(9);
-    head->next->next->next->next->next = new LinkedList(60);
-    head->next->next->next->next->next->next = new LinkedList(100);
-    PrintLinkedList(head);
-    LinkedList* head2 = SegregateEvenOddFromList(head);
-    PrintLinkedList(head2);
-         
+    List* head = new List(10);
+    head->next = new List(20);
+    head->next->next = new List(11);
+    head->next->next->next = new List(9);
+    head->next->next->next->next = new List(5);
+    head->next->next->next->next->next = new List(14);
+    head->next->next->next->next->next->next = new List(13);
+    head->next->next->next->next->next->next->next = new List(12);
+    
+    PrintList(head);
+    PrintList(SeperateEvenOdd(head));
+
     return 0;
 }
